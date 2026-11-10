@@ -30,6 +30,11 @@
 #include "common.h"
 #include "matheval.h"
 
+/* Fortran 77 interface is visible, like library interface.  */
+#if defined __GNUC__ && __GNUC__ >= 4
+#pragma GCC visibility push(default)
+#endif
+
 /* Wrapper for evaluator_create() function.  Evaluator objects will be
    passed between Fortran and C as 64-bit integers instead of void
    pointers, thus size of void* is assumed to be less or equal of 64 bits
@@ -259,3 +264,7 @@ evaluator_derivative_z__(int64_t *evaluator)
 {
 	return (int64_t) evaluator_derivative_z((void *) *evaluator);
 }
+
+#if defined __GNUC__ && __GNUC__ >= 4
+#pragma GCC visibility pop
+#endif

@@ -37,6 +37,24 @@ AM_PROG_LEX([noyywrap])
 AC_PROG_YACC
 LT_INIT
 AM_CONDITIONAL([ENABLE_SHARED], [test "x$enable_shared" = xyes])
+
+dnl Symbols internal to library are hidden by compiler, where supported.
+AC_MSG_CHECKING([whether $CC supports -fvisibility=hidden])
+save_CFLAGS=$CFLAGS
+CFLAGS="$CFLAGS -fvisibility=hidden -Werror"
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#pragma GCC visibility push(default)
+extern int f (void);
+#pragma GCC visibility pop
+int g (void) { return 0; }]])],
+  [have_visibility=yes], [have_visibility=no])
+CFLAGS=$save_CFLAGS
+AC_MSG_RESULT([$have_visibility])
+CFLAG_VISIBILITY=
+if test "x$have_visibility" = xyes; then
+  CFLAG_VISIBILITY=-fvisibility=hidden
+fi
+AC_SUBST([CFLAG_VISIBILITY])
+AM_CONDITIONAL([HAVE_VISIBILITY], [test "x$have_visibility" = xyes])
 AM_MISSING_PROG([AUTOM4TE], [autom4te])
 
 dnl Guile is needed by test suite only.

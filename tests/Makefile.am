@@ -67,10 +67,13 @@ AM_CPPFLAGS = -I$(top_builddir) -I$(top_builddir)/lib -I$(top_srcdir)	\
 check_PROGRAMS = fortran
 TESTS = fortran
 
-# Symbols internal to library are hidden in shared library only.
+# Symbols internal to library are hidden in shared library only, where
+# compiler supports it.
 if ENABLE_SHARED
+if HAVE_VISIBILITY
 check_PROGRAMS += symbols
 TESTS += symbols
+endif
 endif
 
 fortran_SOURCES = fortran.c
