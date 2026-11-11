@@ -26,6 +26,7 @@
 #include <stdarg.h>
 #include "common.h"
 #include "node.h"
+#include "number.h"
 
 Node *
 node_create(int type, ...)
@@ -1100,7 +1101,7 @@ node_get_length(Node *node)
 	   subtree rooted at node.  */
 	switch (node->type) {
 	case 'n':
-		length = snprintf(NULL, 0, "%g", node->data.number);
+		length = number_format(NULL, 0, node->data.number);
 		if (node->data.number < 0)
 			length += 2;
 		return length;
@@ -1166,7 +1167,7 @@ node_write(Node *node, char *string)
 			sprintf(string, "%c", '(');
 			string += strlen(string);
 		}
-		sprintf(string, "%g", node->data.number);
+		number_format(string, NUMBER_LENGTH, node->data.number);
 		string += strlen(string);
 		if (node->data.number < 0)
 			sprintf(string, "%c", ')');

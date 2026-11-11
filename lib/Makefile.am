@@ -27,14 +27,14 @@ AM_CFLAGS = $(CFLAG_VISIBILITY)
 lib_LTLIBRARIES = libmatheval.la
 
 libmatheval_la_SOURCES = parser.y scanner.l error.c matheval.c	\
-g77_interface.c node.c symbol_table.c xmalloc.c xmath.c
+g77_interface.c node.c number.c symbol_table.c xmalloc.c xmath.c
 
 libmatheval_la_LDFLAGS = -version-info 1:1:0 -export-symbols-regex '^evaluator_'
 libmatheval_la_LIBADD = -lm
 
 include_HEADERS = matheval.h
-noinst_HEADERS = common.h error.h node.h symbol_table.h xmalloc.h	\
-xmath.h
+noinst_HEADERS = common.h error.h node.h number.h symbol_table.h	\
+xmalloc.h xmath.h
 
 AM_YFLAGS = -d
 
@@ -42,6 +42,7 @@ AM_YFLAGS = -d
 
 beauty:
 	cd $(srcdir) && INDENT_PROFILE=../.indent.pro indent error.c	\
-	g77_interface.c matheval.c node.c symbol_table.c xmalloc.c xmath.c	\
+	g77_interface.c matheval.c node.c number.c symbol_table.c	\
+	xmalloc.c xmath.c	\
 	$(include_HEADERS) $(noinst_HEADERS)
 	-rm -f $(srcdir)/*~
