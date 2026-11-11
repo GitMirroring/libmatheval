@@ -27,7 +27,7 @@ SUBDIRS = doc lib tests
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libmatheval.pc
 
-EXTRA_DIST = .indent.pro
+EXTRA_DIST = .indent.pro bootstrap
 
 .PHONY: beauty
 

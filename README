@@ -33,6 +33,12 @@ document.  For impatient, simple sequence of:
   make install
 will do the job.
 
+When building from the repository instead of from a release tarball,
+the configure script should be generated first, by running:
+  ./bootstrap
+This needs Autoconf (2.69 or later), Automake, Libtool, Flex, Bison
+and Texinfo.
+
 
 DOCUMENTATION
 
