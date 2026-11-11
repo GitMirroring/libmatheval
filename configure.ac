@@ -69,7 +69,28 @@ fi
 AM_CONDITIONAL([HAVE_GUILE], [test "x$have_guile" = xyes])
 
 dnl Checks for header files.
-AC_CHECK_HEADERS([math.h strings.h stddef.h stdint.h])
+AC_CHECK_HEADERS([math.h strings.h stddef.h stdint.h xlocale.h])
+
+dnl Numbers are read and written in C locale, set for current thread,
+dnl if locale objects can be used with compiler flags given (feature
+dnl test macros may hide them); otherwise decimal point is translated.
+AC_CACHE_CHECK([for locale objects], [matheval_cv_locale_objects],
+  [AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <locale.h>
+#include <stdlib.h>
+#if HAVE_XLOCALE_H
+#include <xlocale.h>
+#endif]], [[locale_t c_locale, old;
+c_locale = newlocale (LC_NUMERIC_MASK, "C", (locale_t) 0);
+old = uselocale (c_locale);
+uselocale (old);
+freelocale (c_locale);
+return strtod ("1", NULL) != 1;]])],
+    [matheval_cv_locale_objects=yes], [matheval_cv_locale_objects=no])])
+if test "x$matheval_cv_locale_objects" = xyes; then
+  AC_DEFINE([HAVE_LOCALE_OBJECTS], [1],
+    [Define to 1 if locale objects (newlocale, uselocale, freelocale)
+     can be used.])
+fi
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T

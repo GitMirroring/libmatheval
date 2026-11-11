@@ -64,8 +64,8 @@ endif
 AM_CPPFLAGS = -I$(top_builddir) -I$(top_builddir)/lib -I$(top_srcdir)	\
 -I$(top_srcdir)/lib
 
-check_PROGRAMS = fortran
-TESTS = fortran
+check_PROGRAMS = fortran locale
+TESTS = fortran locale
 
 # Symbols internal to library are hidden in shared library only, where
 # compiler supports it.
@@ -78,6 +78,9 @@ endif
 
 fortran_SOURCES = fortran.c
 fortran_LDADD = $(top_builddir)/lib/libmatheval.la
+
+locale_SOURCES = locale.c
+locale_LDADD = $(top_builddir)/lib/libmatheval.la
 
 symbols_SOURCES = symbols.c
 symbols_LDADD = $(top_builddir)/lib/libmatheval.la

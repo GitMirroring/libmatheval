@@ -48,6 +48,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "node.h"
+#include "number.h"
 #include "parser.h"
 #include "symbol_table.h"
 
@@ -84,7 +85,7 @@ identifier [_a-zA-Z][_a-zA-Z0-9]*
 
 {number} {
         /* Create node representing constant with appropriate value.  */
-        yylval.node = node_create ('n', atof (yytext));
+        yylval.node = node_create ('n', number_read (yytext));
         return NUMBER;
 }
 
